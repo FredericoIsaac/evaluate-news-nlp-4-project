@@ -1,8 +1,18 @@
 var path = require('path')
 const express = require('express')
 const mockAPIResponse = require('./mockAPI.js')
+require("dotenv").config();
 
 const app = express()
+
+const bodyParser = require("body-parser");
+        app.use(bodyParser.urlencoded({ extended: false }));
+        app.use(bodyParser.json());
+
+const cors= require("cors");
+        app.use(cors());
+
+
 
 app.use(express.static('dist'))
 
@@ -21,3 +31,23 @@ app.listen(8080, function () {
 app.get('/test', function (req, res) {
     res.send(mockAPIResponse)
 })
+
+var AYLIENTextAPI = require('aylien_textapi');
+
+var textapi = new AYLIENTextAPI({
+  application_id: process.env.APP_KEY,
+  application_key: process.env.APP_ID
+});
+
+console.log(textapi);
+
+textapi.sentiment({
+    'text': 'John is a very good football player!'
+  }, function(error, response) {
+    if (error === null) {
+      console.log(response);
+      console.log("aqui2");
+    }
+    console.log("aqui3");
+    console.log(response);
+  });
