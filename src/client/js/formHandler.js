@@ -8,8 +8,11 @@ async function handleSubmit(event) {
     
     const serverUrl = `http://localhost:8081/sentiment/${formText}`;
     const response = await fetch(serverUrl);
-    const responseJson = await response.json();
-    console.log(responseJson);
+    const responseJson = await response.json()
+    .then(function(responseJson){
+            console.log(responseJson.category);
+          });
+    
   
 
 
