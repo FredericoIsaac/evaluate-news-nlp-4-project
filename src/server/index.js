@@ -41,17 +41,22 @@ var textapi = new AYLIENTextAPI({
 
 console.log(textapi);
 
-textapi.sentiment({
-    text: "John is a very good football player!",
+app.get("/sentiment/:text", async (request,response) => {
+    console.log(request.params);
+    const textInput = request.params.text;
+    console.log(textInput);
+
+  await textapi.sentiment({
+    text: textInput,
     mode: "document"
-  }, function(error, response) {
+  }, function(error, responseSDK) {
     if (error === null) {
-      console.log(response);
-      console.log("aqui2");
+      console.log(responseSDK);
+      response.json(responseSDK.polarity);
     }else {
       console.log(error)
-    }
-    console.log("aqui3");
-    console.log(response);
-    
+      response.json("It looks like there is an error with the SDK")
+    }    
+    console.log("responseSDK")
   });
+});
