@@ -12,8 +12,6 @@ const bodyParser = require("body-parser");
 const cors= require("cors");
         app.use(cors());
 
-
-
 app.use(express.static('dist'))
 
 console.log(__dirname)
@@ -32,6 +30,7 @@ app.get('/test', function (req, res) {
     res.send(mockAPIResponse)
 })
 
+
 var AYLIENTextAPI = require('aylien_textapi');
 
 var textapi = new AYLIENTextAPI({
@@ -39,7 +38,8 @@ var textapi = new AYLIENTextAPI({
   application_key: process.env.APP_KEY
 });
 
-const dataholder = []
+const dataholder = [];
+
 console.log(textapi);
 
 app.get("/sentiment/:text", (req,res) => {
@@ -47,18 +47,35 @@ app.get("/sentiment/:text", (req,res) => {
    const textInput = req.params.text;
    console.log(textInput);
 
-   textapi.sentiment({
-    text: textInput,
-    mode: "document"
-  }, function(error, response) {
-    if (error === null) {
-      console.log(response);
-      dataholder.push(response.polarity);
-      res.send(dataholder);
-    }else {
-      console.log(error)
-      res.json("It looks like there is an error with the SDK")
-    }    
-      console.log(response.polarity);
-  });
+    textapi.sentiment({
+      text: textInput,
+      mode: "document"
+    }, function(error, responseSentiment) {
+        if (error === null) {
+          console.log(responseSentiment);
+          dataholder.push(responseSentiment.polarity);
+        }else {
+          console.log(error)
+          res.json("It looks like there is an error with the SDK")
+        }   
+        console.log(dataholder);
+      });
+
+   textapi.classify({
+      text: textInput,
+      mode: "document"
+    }, function (error, responseClassify){
+      if (error === null) {
+        console.log(responseClassify);
+        dataholder.push(responseClassify.categories[0].label);
+      }else {
+        console.log(error)
+        res.json("It looks like there is an error with the SDK")
+      }
+      console.log(dataholder);
+    });
+    
+      console.log(dataholder);
+      res.send(dataholder); 
 });
+
