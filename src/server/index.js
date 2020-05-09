@@ -22,8 +22,8 @@ app.get('/', function (req, res) {
 })
 
 // designates what port the app will listen to for incoming requests
-app.listen(5051, function () {
-    console.log('Example app listening on port 5051!')
+app.listen(5050, function () {
+    console.log('Example app listening on port 5050!')
 })
 
 app.get('/test', function (req, res) {
@@ -48,8 +48,8 @@ app.get("/sentiment/:text", async (req,res) => {
    console.log(textInput);
 
   await  textapi.sentiment({
-      text: textInput,
-      mode: "document"
+      "url": textInput,
+      "mode": "document"
     }, function(error, responseSentiment) {
         if (error === null) {
           console.log(responseSentiment);
@@ -62,8 +62,8 @@ app.get("/sentiment/:text", async (req,res) => {
       });
 
 await textapi.classify({
-      text: textInput,
-      mode: "document"
+      "url": textInput,
+      "mode": "document"
     },  function (error, responseClassify){
       if (error === null) {
         console.log(responseClassify);
@@ -79,3 +79,4 @@ await textapi.classify({
       res.send(dataholder); 
 });
 
+module.exports = app

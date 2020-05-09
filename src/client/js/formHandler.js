@@ -6,21 +6,13 @@ async function handleSubmit(event) {
     Client.checkForName(formText)
     
     
-    const serverUrl = `http://localhost:5051/sentiment/${formText}`;
+    const serverUrl = `http://localhost:5050/sentiment/${formText}`;
     const response = await fetch(serverUrl);
     const responseJson = await response.json()
     .then(function(responseJson){
             console.log(responseJson.category);
           });
     
-  
-
-
-
-
-
-
-
     console.log("::: Form Submitted :::")
     fetch('http://localhost:8081/test')
     .then(res => res.json())
@@ -29,4 +21,6 @@ async function handleSubmit(event) {
     })
 }
 export { handleSubmit }
+
+
 
