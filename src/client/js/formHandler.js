@@ -6,7 +6,7 @@ async function handleSubmit(event) {
     Client.checkForName(formText)
     
     
-    const serverUrl = `http://localhost:8081/sentiment/${formText}`;
+    const serverUrl = `http://localhost:5051/sentiment/${formText}`;
     const response = await fetch(serverUrl);
     const responseJson = await response.json()
     .then(function(responseJson){

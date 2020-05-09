@@ -22,8 +22,8 @@ app.get('/', function (req, res) {
 })
 
 // designates what port the app will listen to for incoming requests
-app.listen(8081, function () {
-    console.log('Example app listening on port 8081!')
+app.listen(5051, function () {
+    console.log('Example app listening on port 5051!')
 })
 
 app.get('/test', function (req, res) {
