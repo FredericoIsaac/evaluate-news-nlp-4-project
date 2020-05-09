@@ -39,19 +39,26 @@ var textapi = new AYLIENTextAPI({
   application_key: process.env.APP_KEY
 });
 
+const dataholder = []
 console.log(textapi);
 
-textapi.sentiment({
-    text: "John is a very good football player!",
+app.get("/sentiment/:text", (req,res) => {
+   console.log(req.params);
+   const textInput = req.params.text;
+   console.log(textInput);
+
+   textapi.sentiment({
+    text: textInput,
     mode: "document"
   }, function(error, response) {
     if (error === null) {
       console.log(response);
-      console.log("aqui2");
+      dataholder.push(response.polarity);
+      res.send(dataholder);
     }else {
       console.log(error)
-    }
-    console.log("aqui3");
-    console.log(response);
-    
+      res.json("It looks like there is an error with the SDK")
+    }    
+      console.log(response.polarity);
   });
+});
