@@ -35,20 +35,23 @@ app.get('/test', function (req, res) {
 var AYLIENTextAPI = require('aylien_textapi');
 
 var textapi = new AYLIENTextAPI({
-  application_id: process.env.APP_KEY,
-  application_key: process.env.APP_ID
+  application_id: process.env.APP_ID,
+  application_key: process.env.APP_KEY
 });
 
 console.log(textapi);
 
 textapi.sentiment({
-    'text': 'John is a very good football player!',
-    "mode": "document"
+    text: "John is a very good football player!",
+    mode: "document"
   }, function(error, response) {
     if (error === null) {
       console.log(response);
       console.log("aqui2");
+    }else {
+      console.log(error)
     }
     console.log("aqui3");
     console.log(response);
+    
   });
