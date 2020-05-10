@@ -10,7 +10,7 @@ async function handleSubmit(event) {
             form.className = "valid";
             suggestionvalidate.style.cssText = ""
     // GET request that the response is the info passed through SDK    
-    const serverUrl = `http://localhost:5500/sentiment/${formText}`;
+    const serverUrl = `http://localhost:5501/sentiment/${formText}`;
     const response = await fetch(serverUrl);
     const responseJson = await response.json()
     

@@ -22,14 +22,14 @@ app.get('/', function (req, res) {
 })
 
 // designates what port the app will listen to for incoming requests
-/*app.listen(5500, function () {
-    console.log('Example app listening on port 5500!')
+app.listen(5501, function () {
+    console.log('Example app listening on port 5501!')
 })
 
 app.get('/test', function (req, res) {
     res.send(mockAPIResponse)
 })
-*/
+
 
 var AYLIENTextAPI = require('aylien_textapi');
 
@@ -80,10 +80,14 @@ function classify(textInput){
 
 app.get("/sentiment/:text", (req,res) => {
    let textInput = req.params.text;
-   
+   console.log("first stop");
+   //hard code info because the server-client is not working right
+   textInput = "https://www.bucketlistly.blog/posts/best-travel-blogs-design";
   sentiment(textInput);  
+    console.log("second stop");
   classify(textInput); 
-  console.log("sending no final:");
+    console.log("third stop");
+  console.log("and finally sending:");
    res.send(dataholder); 
     console.log(dataholder);
 });
