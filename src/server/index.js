@@ -22,14 +22,14 @@ app.get('/', function (req, res) {
 })
 
 // designates what port the app will listen to for incoming requests
-app.listen(5500, function () {
+/*app.listen(5500, function () {
     console.log('Example app listening on port 5500!')
 })
 
 app.get('/test', function (req, res) {
     res.send(mockAPIResponse)
 })
-
+*/
 
 var AYLIENTextAPI = require('aylien_textapi');
 
@@ -48,15 +48,17 @@ function sentiment(textInput){
     "url": textInput,
     "mode": "document"
   }, function(error, responseSentiment) {
+     let test;
       if (error === null) {
         console.log(responseSentiment);
         dataholder.sentiment = responseSentiment.polarity;
         dataholder.text = responseSentiment.text;
+        test = true
       }else {
         console.log(error)
         res.json("It looks like there is an error with the SDK")
+        test = false
       }   
-      return dataholder.sentiment;
     });
 }
 // SDK that brings the type of article
@@ -72,7 +74,6 @@ function classify(textInput){
       console.log(error)
       res.json("It looks like there is an error with the SDK")
     }
-    return dataholder.category;
   });
 }
 
