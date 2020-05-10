@@ -1,3 +1,6 @@
+$line-height: 30px;
+$font-weight: 600;
+
 body {
     display: flex;
     flex-direction: column;
@@ -11,4 +14,17 @@ main {
 section {
     max-width: 800px;
     margin: 50px auto;
+}
+
+html{
+    background-color: darkslateblue;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.3em;
+    
+}
+
+.longText h1,h2,h3,h4,h5,h6{
+        line-height: $line-height;
+        font-weight: $font-weight;
+    
 }

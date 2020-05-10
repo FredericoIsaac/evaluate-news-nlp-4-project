@@ -9,30 +9,40 @@
     <body>
 
         <header>
-            <div class="">
-                Logo
-            </div>
-            <div class="">
-                navigation
+            <div class="logo">
+                <a href="https://aylien.com/"><img id="imgLogoAylien" alt="aylien logo"></a>
             </div>
         </header>
 
         <main>
+            
+
+            <section>
+                <h1>Understanding the Natural Language Processing (NLP) Power</h1>
+                <blockquote cite="https://en.wikipedia.org/wiki/Natural_language_processing"><i>Natural language processing (NLP) is a subfield of linguistics, computer science, information engineering, and artificial intelligence concerned with the interactions between computers and human (natural) languages, in particular how to program computers to process and analyze large amounts of natural language data.</i></blockquote>
+                <p>Here we will see a small demonstration of the power of the web. If we think about what is possible to do with all the information exposed on the web, we can quickly understand that it can help us to interpret patterns that in turn will help us to better understand society as well as the individual. This is extremely important to understand trends such as diseases, for example coronavirus.</p>
+            </section> 
             <section>
                 <form class="" onsubmit="return Client.handleSubmit(event)">
+                    <p id="helpValidate">Try it! Put a URL of an article in the form and click submit.</p>
                     <input id="name" type="text" name="input" value="" placeholder="Name">
                     <input type="submit" name="" value="submit" onclick="return Client.handleSubmit(event)" onsubmit="return Client.handleSubmit(event)">
                 </form>
             <section>
-
             <section>
-                <strong>Form Results:</strong>
-                <div id="results"></div>
+                <h2>Form Results:</h2>
+                <h3>Category:</h3>
+                <div id="category"></div>
+                <h3>Polarity:</h3>
+                <div id="polarity"></div>
+                <h3>Article:</h3>
+                <div id="text"></div>
             </section>
         </main>
 
         <footer>
-            <p>This is a footer</p>
+            <p>&copy Frederico Gago 2020</p>
+            <p>Courtesy of <i>AYLIEN!</i></p>
         </footer>
 
     <script type="text/javascript" src="main.js"></script></body>

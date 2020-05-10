@@ -25,8 +25,16 @@ module.exports = {
                      'style-loader',  //3º inject styles into DOM
                       'css-loader', //2º turns css into comonjs
                      'sass-loader' ]  //1º turns sass into css
+            },
+            {
+                test: /\.(jpg|png)$/,
+                use: [
+                    {
+                        loader: "file-loader",
+                        }
+                     ]
+                
             }
-
         ]
     },
     plugins: [

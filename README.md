@@ -152,7 +152,8 @@ A great step to take with your finished project would be to deploy it! Unfortuna
 * 6º Establishing Routes (using API) and dont forget the responses on the console to know that it was saves for example
 * 7º Last thing to do:
         1. Parse the response body to dynamically fill content on the page.
-        2. Test that the server and form submission work, making sure to also handle error responses if the user input does not match API requirements.You should add Jest to your project to handle testing as well.
+        2. Test that the server and form submission work, making sure to also handle error responses if the user input does not match API requirements.
+        3. You should add Jest to your project to handle testing as well.
 * 8º Change .css files for .scss and rewrite the files with sass syntax
 * 9º Add  header, footer, form, and main files 
 * 10º Adding Jest installed, that there is an npm script to run Jest, and that the tests all pass. Every src/js file should have at least one test

@@ -1,12 +1,32 @@
+@import "base";
+
 form {
     border: 1px solid #545454;
     border-radius: 3px;
     padding: 40px;
+    border-color: black;
+    input {
+        padding: 5px 20px;
+        width: 100%;
+        line-height: 16px;
+        margin: 10px 0;
+        border-color: black;
+          
+    }
+    input.invalid{
+        border-color: red;
+    }
+
+    input.valid{
+        border-color: green;
+    
+    }
 }
 
-input {
-    padding: 5px 20px;
-    width: 100%;
-    line-height: 16px;
-    margin: 10px 0;
+#helpValidate{
+    line-height: $line-height;
+    font-weight: $font-weight;
 }
+
+
+
