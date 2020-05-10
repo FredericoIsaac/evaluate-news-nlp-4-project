@@ -22,8 +22,8 @@ app.get('/', function (req, res) {
 })
 
 // designates what port the app will listen to for incoming requests
-app.listen(5050, function () {
-    console.log('Example app listening on port 5050!')
+app.listen(5500, function () {
+    console.log('Example app listening on port 5500!')
 })
 
 app.get('/test', function (req, res) {
@@ -42,41 +42,51 @@ const dataholder = {};
 
 console.log(textapi);
 
-app.get("/sentiment/:text", async (req,res) => {
-   console.log(req.params);
-   const textInput = req.params.text;
-   console.log(textInput);
-
-  await  textapi.sentiment({
-      "url": textInput,
-      "mode": "document"
-    }, function(error, responseSentiment) {
-        if (error === null) {
-          console.log(responseSentiment);
-          dataholder.sentiment = responseSentiment.polarity;
-        }else {
-          console.log(error)
-          res.json("It looks like there is an error with the SDK")
-        }   
-        console.log(dataholder.sentiment);
-      });
-
-await textapi.classify({
-      "url": textInput,
-      "mode": "document"
-    },  function (error, responseClassify){
+function sentiment(textInput){
+  textapi.sentiment({
+    "url": textInput,
+    "mode": "document"
+  }, function(error, responseSentiment) {
       if (error === null) {
-        console.log(responseClassify);
-        dataholder.category = responseClassify.categories[0].label;
+        console.log(responseSentiment);
+        dataholder.sentiment = responseSentiment.polarity;
       }else {
         console.log(error)
         res.json("It looks like there is an error with the SDK")
-      }
-      console.log(dataholder.category);
+      }   
+      return dataholder.sentiment;
     });
+}
 
-      console.log(dataholder);
-      res.send(dataholder); 
+function classify(textInput){
+  textapi.classify({
+    "url": textInput,
+    "mode": "document"
+  },  function (error, responseClassify){
+    if (error === null) {
+      console.log(responseClassify);
+      dataholder.category =  responseClassify.categories[0].label;
+    }else {
+      console.log(error)
+      res.json("It looks like there is an error with the SDK")
+    }
+    return dataholder.category;
+  });
+}
+
+
+app.get("/sentiment/:text", (req,res) => {
+   let textInput = req.params.text;
+   //hardcode this here:
+   textInput = "https://www.bucketlistly.blog/posts/best-travel-blogs-design";
+
+  sentiment(textInput);  
+  classify(textInput); 
+  console.log("sending no final:");
+   res.send(dataholder); 
+    console.log(dataholder);
 });
 
 module.exports = app
+
+
