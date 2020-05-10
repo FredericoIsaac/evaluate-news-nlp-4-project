@@ -1,8 +1,10 @@
+@import "base";
+
 form {
     border: 1px solid #545454;
     border-radius: 3px;
     padding: 40px;
-  
+    border-color: black;
     input {
         padding: 5px 20px;
         width: 100%;
@@ -21,9 +23,10 @@ form {
     }
 }
 
-
-
-/* Validation styles*/
+#helpValidate{
+    line-height: $line-height;
+    font-weight: $font-weight;
+}
 
 
 

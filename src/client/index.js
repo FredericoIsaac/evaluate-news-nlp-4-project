@@ -12,18 +12,8 @@ import  logo from "./imgLogoAylien.png";
 
 console.log(checkForName);
 
-function component(){
-    const logoPlace = document.getElementById("imgLogoAylien");
-    const aylienLogo = new Image();
-    aylienLogo.src = logo;
-    logoPlace.setAttribute(aylienLogo);
-
-}
-
-
-
-console.log("CHANGE!!");
-
+const logoPlace = document.getElementById("imgLogoAylien")
+    logoPlace.setAttribute("src",logo)
 
 export {
     checkForName,

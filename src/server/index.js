@@ -42,6 +42,7 @@ const dataholder = {};
 
 console.log(textapi);
 
+// SDK to sentiment bring back the text article and polarity
 function sentiment(textInput){
   textapi.sentiment({
     "url": textInput,
@@ -58,7 +59,7 @@ function sentiment(textInput){
       return dataholder.sentiment;
     });
 }
-
+// SDK that brings the type of article
 function classify(textInput){
   textapi.classify({
     "url": textInput,
@@ -78,9 +79,7 @@ function classify(textInput){
 
 app.get("/sentiment/:text", (req,res) => {
    let textInput = req.params.text;
-   //hardcode this here:
-   textInput = "https://www.bucketlistly.blog/posts/best-travel-blogs-design";
-
+   
   sentiment(textInput);  
   classify(textInput); 
   console.log("sending no final:");

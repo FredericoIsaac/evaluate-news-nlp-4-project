@@ -8,7 +8,7 @@ async function handleSubmit(event) {
     
     if(Client.checkForName(formText)){
             form.className = "valid";
-            suggestionvalidate.style.color = ""
+            suggestionvalidate.style.cssText = ""
     // GET request that the response is the info passed through SDK    
     const serverUrl = `http://localhost:5500/sentiment/${formText}`;
     const response = await fetch(serverUrl);
@@ -25,7 +25,7 @@ async function handleSubmit(event) {
     textTag.textContent = responseJson.text;
     }else{
         form.className = "invalid";
-        suggestionvalidate.style.color = "red"
+        suggestionvalidate.style.cssText = "color: white; font-size: 1.5em; text-decoration: underline";
     }
     
     
