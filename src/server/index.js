@@ -12,8 +12,6 @@ const bodyParser = require("body-parser");
 const cors= require("cors");
         app.use(cors());
 
-
-
 app.use(express.static('dist'))
 
 console.log(__dirname)
@@ -24,13 +22,14 @@ app.get('/', function (req, res) {
 })
 
 // designates what port the app will listen to for incoming requests
-app.listen(8081, function () {
-    console.log('Example app listening on port 8081!')
+app.listen(5500, function () {
+    console.log('Example app listening on port 5500!')
 })
 
 app.get('/test', function (req, res) {
     res.send(mockAPIResponse)
 })
+
 
 var AYLIENTextAPI = require('aylien_textapi');
 
@@ -39,26 +38,55 @@ var textapi = new AYLIENTextAPI({
   application_key: process.env.APP_KEY
 });
 
-const dataholder = []
+const dataholder = {};
+
 console.log(textapi);
 
-app.get("/sentiment/:text", (req,res) => {
-   console.log(req.params);
-   const textInput = req.params.text;
-   console.log(textInput);
+function sentiment(textInput){
+  textapi.sentiment({
+    "url": textInput,
+    "mode": "document"
+  }, function(error, responseSentiment) {
+      if (error === null) {
+        console.log(responseSentiment);
+        dataholder.sentiment = responseSentiment.polarity;
+      }else {
+        console.log(error)
+        res.json("It looks like there is an error with the SDK")
+      }   
+      return dataholder.sentiment;
+    });
+}
 
-   textapi.sentiment({
-    text: textInput,
-    mode: "document"
-  }, function(error, response) {
+function classify(textInput){
+  textapi.classify({
+    "url": textInput,
+    "mode": "document"
+  },  function (error, responseClassify){
     if (error === null) {
-      console.log(response);
-      dataholder.push(response.polarity);
-      res.send(dataholder);
+      console.log(responseClassify);
+      dataholder.category =  responseClassify.categories[0].label;
     }else {
       console.log(error)
       res.json("It looks like there is an error with the SDK")
-    }    
-      console.log(response.polarity);
+    }
+    return dataholder.category;
   });
+}
+
+
+app.get("/sentiment/:text", (req,res) => {
+   let textInput = req.params.text;
+   //hardcode this here:
+   textInput = "https://www.bucketlistly.blog/posts/best-travel-blogs-design";
+
+  sentiment(textInput);  
+  classify(textInput); 
+  console.log("sending no final:");
+   res.send(dataholder); 
+    console.log(dataholder);
 });
+
+module.exports = app
+
+
