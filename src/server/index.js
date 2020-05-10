@@ -50,6 +50,7 @@ function sentiment(textInput){
       if (error === null) {
         console.log(responseSentiment);
         dataholder.sentiment = responseSentiment.polarity;
+        dataholder.text = responseSentiment.text;
       }else {
         console.log(error)
         res.json("It looks like there is an error with the SDK")

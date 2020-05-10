@@ -2,17 +2,33 @@ async function handleSubmit(event) {
     event.preventDefault()
 
     // check what text was put into the form field
-    let formText = document.getElementById('name').value
-    Client.checkForName(formText)
+    const form = document.getElementById('name');
+    const suggestionvalidate = document.getElementById("helpValidate")
+    let formText = form.value
     
-    //formText = "https://www.bucketlistly.blog/posts/best-travel-blogs-design"
-    
+    if(Client.checkForName(formText)){
+            form.className = "valid";
+            suggestionvalidate.style.color = ""
+    // GET request that the response is the info passed through SDK    
     const serverUrl = `http://localhost:5500/sentiment/${formText}`;
     const response = await fetch(serverUrl);
     const responseJson = await response.json()
-    .then(function(responseJson){
-            console.log(responseJson.category);
-          });
+    
+    // Dinamically change UI
+    const categoryTag = document.getElementById("category");
+    categoryTag.textContent = responseJson.category;
+
+    const polarityTag = document.getElementById("polarity");
+    polarityTag.textContent = responseJson.polarity;
+
+    const textTag = document.getElementById("text");
+    textTag.textContent = responseJson.text;
+    }else{
+        form.className = "invalid";
+        suggestionvalidate.style.color = "red"
+    }
+    
+    
     
     
     console.log("::: Form Submitted :::")
@@ -21,6 +37,7 @@ async function handleSubmit(event) {
     .then(function(res) {
         document.getElementById('results').innerHTML = res.message
     })
+    
 }
 export { handleSubmit }
 

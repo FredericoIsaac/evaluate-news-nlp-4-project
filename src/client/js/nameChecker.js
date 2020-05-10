@@ -1,16 +1,13 @@
 function checkForName(inputText) {
     console.log("::: Running checkForName :::", inputText);
-    let names = [
-        "Picard",
-        "Janeway",
-        "Kirk",
-        "Archer",
-        "Georgiou"
-    ]
-
-    if(names.includes(inputText)) {
-        alert("Welcome, Captain!")
+    const regexUrl = /^((((https?:)?\/\/(www\.)?)?(.+))\.([a-z]{2,8})(\/)?(\/.+)?)$/;
+    if(regexUrl.test(inputText)){
+        return true
+    }else{
+        return false
     }
 }
 
 export { checkForName }
+
+//confir url with regex

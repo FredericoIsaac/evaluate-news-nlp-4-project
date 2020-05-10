@@ -32,8 +32,18 @@ module.exports = {
                     loader: 'url-loader',
                     options: { 
                         limit: 8000, // Convert images < 8kb to base64 strings
+                        name: '[name].[ext]'
                     } 
                 }]
+            },
+            {
+                test: /\.(jpg|png)$/,
+                use: [
+                    {
+                        loader: "file-loader",
+                        }
+                     ]
+                
             }
         ],
     },
