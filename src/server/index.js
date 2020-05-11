@@ -38,54 +38,62 @@ var textapi = new AYLIENTextAPI({
   application_key: process.env.APP_KEY
 });
 
-const dataholder = {};
-
-console.log(textapi);
-
-// SDK to sentiment bring back the text article and polarity
-function sentiment(textInput){
+function sentimentResponse(textInput){
   textapi.sentiment({
     "url": textInput,
     "mode": "document"
-  }, function(error, responseSentiment) {
+  }, (error, responseSentiment) => {
       if (error === null) {
+        console.log("inside sentiment")
         console.log(responseSentiment);
         dataholder.sentiment = responseSentiment.polarity;
         dataholder.text = responseSentiment.text;
       }else {
-        console.log(error)
-        res.json("It looks like there is an error with the SDK")
+        console.log(error);
       }   
-      return dataholder.sentiment;
     });
-}
-// SDK that brings the type of article
-function classify(textInput){
+};
+async function classifyResponse(textInput){
   textapi.classify({
     "url": textInput,
     "mode": "document"
-  },  function (error, responseClassify){
+  }, (error, responseClassify) =>{
     if (error === null) {
+      console.log("inside classify")
       console.log(responseClassify);
+      if(responseClassify.categories.length >0){
       dataholder.category =  responseClassify.categories[0].label;
+      }else{
+        dataholder.category =  "Not descriminate";
+      }
     }else {
-      console.log(error)
-      res.json("It looks like there is an error with the SDK")
+      console.log(error);
     }
-    return dataholder.category;
   });
 }
 
+const dataholder = {};
 
-app.get("/sentiment/:text", (req,res) => {
-   let textInput = req.params.text;
+app.post("/add", async (request,response) =>{
+  console.log(request.body);
+  const textInput = request.body.url
    
-  sentiment(textInput);  
-  classify(textInput); 
-  console.log("sending no final:");
-   res.send(dataholder); 
-    console.log(dataholder);
+    console.log("next sentiment")
+       sentimentResponse(textInput)
+    console.log("end sentiment")
+
+    console.log("next classify")
+    classifyResponse(textInput)
+    console.log("end classify")
+  
+    console.log(dataholder, "nice try");
 });
+
+app.get("/all", (request,response) =>{
+  console.log(dataholder);
+  console.log("inside  get..............................................................")
+  response.send(dataholder);
+})
 
 module.exports = app
 
