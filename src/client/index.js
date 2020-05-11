@@ -1,5 +1,7 @@
 import { checkForName } from "./js/nameChecker"
 import { handleSubmit } from "./js/formHandler"
+import { updateUI } from "./js/formHandler"
+import { postServer } from "./js/formHandler"
 
 
 
@@ -17,5 +19,7 @@ const logoPlace = document.getElementById("imgLogoAylien")
 
 export {
     checkForName,
-    handleSubmit
+    handleSubmit,
+    updateUI,
+    postServer
 }

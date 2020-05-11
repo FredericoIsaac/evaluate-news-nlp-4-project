@@ -22,8 +22,8 @@ app.get('/', function (req, res) {
 })
 
 // designates what port the app will listen to for incoming requests
-app.listen(5501, function () {
-    console.log('Example app listening on port 5501!')
+app.listen(5500, function () {
+    console.log('Example app listening on port 5500!')
 })
 
 app.get('/test', function (req, res) {
@@ -38,59 +38,62 @@ var textapi = new AYLIENTextAPI({
   application_key: process.env.APP_KEY
 });
 
-const dataholder = {};
-
-console.log(textapi);
-
-// SDK to sentiment bring back the text article and polarity
-function sentiment(textInput){
+function sentimentResponse(textInput){
   textapi.sentiment({
     "url": textInput,
     "mode": "document"
-  }, function(error, responseSentiment) {
-     let test;
+  }, (error, responseSentiment) => {
       if (error === null) {
+        console.log("inside sentiment")
         console.log(responseSentiment);
         dataholder.sentiment = responseSentiment.polarity;
         dataholder.text = responseSentiment.text;
-        test = true
       }else {
-        console.log(error)
-        res.json("It looks like there is an error with the SDK")
-        test = false
+        console.log(error);
       }   
     });
-}
-// SDK that brings the type of article
-function classify(textInput){
+};
+async function classifyResponse(textInput){
   textapi.classify({
     "url": textInput,
     "mode": "document"
-  },  function (error, responseClassify){
+  }, (error, responseClassify) =>{
     if (error === null) {
+      console.log("inside classify")
       console.log(responseClassify);
+      if(responseClassify.categories.length >0){
       dataholder.category =  responseClassify.categories[0].label;
+      }else{
+        dataholder.category =  "Not descriminate";
+      }
     }else {
-      console.log(error)
-      res.json("It looks like there is an error with the SDK")
+      console.log(error);
     }
   });
 }
 
+const dataholder = {};
 
-app.get("/sentiment/:text", (req,res) => {
-   let textInput = req.params.text;
-   console.log("first stop");
-   //hard code info because the server-client is not working right
-   textInput = "https://www.bucketlistly.blog/posts/best-travel-blogs-design";
-  sentiment(textInput);  
-    console.log("second stop");
-  classify(textInput); 
-    console.log("third stop");
-  console.log("and finally sending:");
-   res.send(dataholder); 
-    console.log(dataholder);
+app.post("/add", async (request,response) =>{
+  console.log(request.body);
+  const textInput = request.body.url
+   
+    console.log("next sentiment")
+       sentimentResponse(textInput)
+    console.log("end sentiment")
+
+    console.log("next classify")
+    classifyResponse(textInput)
+    console.log("end classify")
+  
+    console.log(dataholder, "nice try");
 });
+
+app.get("/all", (request,response) =>{
+  console.log(dataholder);
+  console.log("inside  get..............................................................")
+  response.send(dataholder);
+})
 
 module.exports = app
 
