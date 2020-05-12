@@ -58,14 +58,15 @@ async function handleSubmit(event) {
     suggestionvalidate.style.cssText = "color: white; font-size: 1.5em; text-decoration: underline";
     }
     
-    console.log("::: Form Submitted :::")
+    
+    /*console.log("::: Form Submitted :::")
     fetch('http://localhost:5500/test')
     .then(res => res.json())
     .then(function(res) {
         document.getElementById('results').innerHTML = res.message
-    })
+    })*/
     
-}
+};
 
 export { handleSubmit, updateUI, postServer}
 
