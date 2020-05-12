@@ -10,4 +10,4 @@ function checkForName(inputText) {
 
 export { checkForName }
 
-//confir url with regex
+//confire url with regex

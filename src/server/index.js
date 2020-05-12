@@ -2,6 +2,7 @@ var path = require('path')
 const express = require('express')
 const mockAPIResponse = require('./mockAPI.js')
 require("dotenv").config();
+var AYLIENTextAPI = require('aylien_textapi');
 
 const app = express()
 
@@ -14,31 +15,27 @@ const cors= require("cors");
 
 app.use(express.static('dist'))
 
-console.log(__dirname)
-
 app.get('/', function (req, res) {
-    res.sendFile('dist/index.html')
-    //res.sendFile(path.resolve('src/client/views/index.html'))
+   // res.sendFile('dist/index.html')
+    res.sendFile(path.resolve('src/client/views/index.html'))
 })
 
 // designates what port the app will listen to for incoming requests
 app.listen(5500, function () {
-    console.log('Example app listening on port 5500!')
+  console.log('Example app listening on port 5500!')
 })
-
+/*
 app.get('/test', function (req, res) {
     res.send(mockAPIResponse)
-})
-
-
-var AYLIENTextAPI = require('aylien_textapi');
+})*/
 
 var textapi = new AYLIENTextAPI({
   application_id: process.env.APP_ID,
   application_key: process.env.APP_KEY
 });
 
-function sentimentResponse(textInput){
+function sentimentResponse(request,response,next){
+  const textInput = request.body.url
   textapi.sentiment({
     "url": textInput,
     "mode": "document"
@@ -46,14 +43,16 @@ function sentimentResponse(textInput){
       if (error === null) {
         console.log("inside sentiment")
         console.log(responseSentiment);
-        dataholder.sentiment = responseSentiment.polarity;
+        dataholder.polarity = responseSentiment.polarity;
         dataholder.text = responseSentiment.text;
+        return next();
       }else {
         console.log(error);
       }   
     });
 };
-async function classifyResponse(textInput){
+async function classifyResponse(request,response){
+  const textInput = request.body.url
   textapi.classify({
     "url": textInput,
     "mode": "document"
@@ -66,6 +65,7 @@ async function classifyResponse(textInput){
       }else{
         dataholder.category =  "Not descriminate";
       }
+      response.send(dataholder);
     }else {
       console.log(error);
     }
@@ -74,20 +74,7 @@ async function classifyResponse(textInput){
 
 const dataholder = {};
 
-app.post("/add", async (request,response) =>{
-  console.log(request.body);
-  const textInput = request.body.url
-   
-    console.log("next sentiment")
-       sentimentResponse(textInput)
-    console.log("end sentiment")
-
-    console.log("next classify")
-    classifyResponse(textInput)
-    console.log("end classify")
-  
-    console.log(dataholder, "nice try");
-});
+app.post("/add", sentimentResponse, classifyResponse);
 
 app.get("/all", (request,response) =>{
   console.log(dataholder);
