@@ -34,7 +34,8 @@ var textapi = new AYLIENTextAPI({
   application_key: process.env.APP_KEY
 });
 
-function sentimentResponse(textInput){
+function sentimentResponse(request,response,next){
+  const textInput = request.body.url
   textapi.sentiment({
     "url": textInput,
     "mode": "document"
@@ -42,14 +43,16 @@ function sentimentResponse(textInput){
       if (error === null) {
         console.log("inside sentiment")
         console.log(responseSentiment);
-        dataholder.sentiment = responseSentiment.polarity;
+        dataholder.polarity = responseSentiment.polarity;
         dataholder.text = responseSentiment.text;
+        return next();
       }else {
         console.log(error);
       }   
     });
 };
-async function classifyResponse(textInput){
+async function classifyResponse(request,response){
+  const textInput = request.body.url
   textapi.classify({
     "url": textInput,
     "mode": "document"
@@ -62,6 +65,7 @@ async function classifyResponse(textInput){
       }else{
         dataholder.category =  "Not descriminate";
       }
+      response.send(dataholder);
     }else {
       console.log(error);
     }
@@ -70,20 +74,7 @@ async function classifyResponse(textInput){
 
 const dataholder = {};
 
-app.post("/add", async (request,response) =>{
-  console.log(request.body);
-  const textInput = request.body.url
-   
-    console.log("next sentiment")
-       sentimentResponse(textInput)
-    console.log("end sentiment")
-
-    console.log("next classify")
-    classifyResponse(textInput)
-    console.log("end classify")
-  
-    console.log(dataholder, "nice try");
-});
+app.post("/add", sentimentResponse, classifyResponse);
 
 app.get("/all", (request,response) =>{
   console.log(dataholder);
