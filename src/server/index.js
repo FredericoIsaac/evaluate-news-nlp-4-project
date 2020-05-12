@@ -24,10 +24,6 @@ app.get('/', function (req, res) {
 app.listen(5500, function () {
   console.log('Example app listening on port 5500!')
 })
-/*
-app.get('/test', function (req, res) {
-    res.send(mockAPIResponse)
-})*/
 
 var textapi = new AYLIENTextAPI({
   application_id: process.env.APP_ID,
@@ -78,7 +74,6 @@ app.post("/add", sentimentResponse, classifyResponse);
 
 app.get("/all", (request,response) =>{
   console.log(dataholder);
-  console.log("inside  get..............................................................")
   response.send(dataholder);
 })
 
