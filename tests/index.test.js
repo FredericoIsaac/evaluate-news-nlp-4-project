@@ -1,21 +1,23 @@
+
 const app = require("../src/server/index");
-require('supertest')
+const supertest = require('supertest');
+const request = supertest(app);
 
-
-describe("post /add", () =>{
-    test.only("status 200", async () =>{
-        const response = await require(app).post("/add")
+    it("post /add status 200", async done =>{
+        const response = await require(app)
+        .post("http://localhost:5500/add")
         .send({
             url: "https://www.bucketlistly.blog/posts/best-travel-blogs-design"
         });
         expect(response.statusCode).toBe(200)
+        done()
     });
-});
 
-describre("get /all", () =>{
-    test("has status 200", async () =>{
-        const response = await request(app).get("/all");
+
+    it("get http://localhost:5500/all has status 200", async done =>{
+        const response = await require(app)
+        .get("http://localhost:5500/all");
         expect(response.statusCode).toBe(200);
+        done();
     });
-});
 

@@ -17,7 +17,7 @@ const postServer = async (url, data) => {
 };
 
 const updateUI = async () => {
-   const getData = await fetch("/all");
+   const getData = await fetch("http://localhost:5500/all");
    try{
     const responseJson = await getData.json();
     const categoryTag = document.getElementById("category");
@@ -57,15 +57,7 @@ async function handleSubmit(event) {
     form.className = "invalid";
     suggestionvalidate.style.cssText = "color: white; font-size: 1.5em; text-decoration: underline";
     }
-    
-    
-    /*console.log("::: Form Submitted :::")
-    fetch('http://localhost:5500/test')
-    .then(res => res.json())
-    .then(function(res) {
-        document.getElementById('results').innerHTML = res.message
-    })*/
-    
+       
 };
 
 export { handleSubmit, updateUI, postServer}
