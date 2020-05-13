@@ -1,6 +1,6 @@
 var path = require('path')
 const express = require('express')
-const mockAPIResponse = require('./mockAPI.js')
+//const mockAPIResponse = require('./mockAPI.js')
 require("dotenv").config();
 var AYLIENTextAPI = require('aylien_textapi');
 
@@ -16,13 +16,7 @@ const cors= require("cors");
 app.use(express.static('dist'))
 
 app.get('/', function (req, res) {
-   // res.sendFile('dist/index.html')
     res.sendFile(path.resolve('src/client/views/index.html'))
-})
-
-// designates what port the app will listen to for incoming requests
-app.listen(5500, function () {
-  console.log('Example app listening on port 5500!')
 })
 
 var textapi = new AYLIENTextAPI({
@@ -36,7 +30,7 @@ function sentimentResponse(request,response,next){
     "url": textInput,
     "mode": "document"
   }, (error, responseSentiment) => {
-      if (error === null) {
+      if (!error) {
         console.log("inside sentiment")
         console.log(responseSentiment);
         dataholder.polarity = responseSentiment.polarity;
@@ -53,7 +47,7 @@ async function classifyResponse(request,response){
     "url": textInput,
     "mode": "document"
   }, (error, responseClassify) =>{
-    if (error === null) {
+    if (!error) {
       console.log("inside classify")
       console.log(responseClassify);
       if(responseClassify.categories.length >0){
@@ -64,6 +58,7 @@ async function classifyResponse(request,response){
       response.send(dataholder);
     }else {
       console.log(error);
+      response.send("error", error)
     }
   });
 }
@@ -76,6 +71,8 @@ app.get("/all", (request,response) =>{
   console.log(dataholder);
   response.send(dataholder);
 })
+
+
 
 module.exports = app
 

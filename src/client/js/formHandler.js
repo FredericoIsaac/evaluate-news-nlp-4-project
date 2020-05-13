@@ -17,7 +17,7 @@ const postServer = async (url, data) => {
 };
 
 const updateUI = async () => {
-   const getData = await fetch("/all");
+   const getData = await fetch("http://localhost:5500/all");
    try{
     const responseJson = await getData.json();
     const categoryTag = document.getElementById("category");
